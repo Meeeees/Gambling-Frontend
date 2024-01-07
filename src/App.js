@@ -5,9 +5,11 @@ import Signup from './pages/signup';
 import Signin from './pages/signin';
 import home from './pages/home.jsx';
 import Nav from './pages/nav.jsx';
+import Gamble from './pages/gamble.jsx';
 
 function App() {
   const [data, setData] = React.useState({});
+  const [token, setToken] = React.useState(localStorage.getItem('token'));
   React.useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -28,7 +30,15 @@ function App() {
         }
       })
     }
-  }, [localStorage.getItem('token')]);
+  }, [token]);
+
+  const setbalance = (balance) => {
+    setData({
+      ...data,
+      balance
+    })
+  }
+
   return (
     <div style={{ textAlign: 'center' }}>
       <Nav data={data} />
@@ -36,6 +46,7 @@ function App() {
         <Route path="/" />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path='/gamble' element={<Gamble balance={data.balance} setBalance={setbalance} setToken={setToken} />} />
       </Routes>
     </div>
   );
